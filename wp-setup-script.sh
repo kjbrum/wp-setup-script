@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Version 1.0.0
+# Author: Kyle Brumm
+# Version: 1.0.0
 
 new_project="$1"
 
@@ -10,7 +11,7 @@ if ! $(wp core is-installed); then
 	exit 2
 fi
 
-# Just another WordPress blog (Settings->General->Tagline)
+# Set the site tagline (Settings->General->Tagline)
 while true; do
 	read -rep $'Enter a new site tagline or just hit [enter] to continue:\n' tagline
 	case $tagline in
