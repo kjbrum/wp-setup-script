@@ -26,7 +26,7 @@
 
 1. Place the setup script at the root of your WordPress install.
 2. Run the script with - `$ . wp-setup-script.sh project-name`
-3. Answer the prompts
+3. Answer the prompts.
 4. Enjoy your new WordPress site!
 
 
