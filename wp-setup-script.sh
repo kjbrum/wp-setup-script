@@ -31,20 +31,22 @@ while true; do
 			# Change to our custom theme
 			wp theme activate $new_project
 
-			# Create the primary navigation menu
-			wp menu create "Primary Navigation"
+			# Create the main menu
+			wp menu create "Main Menu"
 
 			# Assign the new menu to the primary spot
-			wp menu location assign primary-navigation primary
+			wp menu location assign main-menu primary
 
 			# Update our admin user and create the client user
 				## Update the admin user
 				user_admin=$(wp user create user_admin noreply@admin.com --role=administrator --user_pass=us3r_adm1n --display_name="User Admin" --first_name=User --last_name=Admin --porcelain)
 				## Create a new client user
 				user_client=$(wp user create user_client noreply@client.com --role=editor --user_pass=us3r_cl13nt --display_name="User Client" --first_name=User --last_name=Client --porcelain)
+
 				## Set the color scheme for both users
 				# wp user meta update $user_admin admin_color colorscheme
 				# wp user meta update $user_client admin_color colorscheme
+
 				## Delete the default admin and reassign posts to user_admin
 				wp user delete 1 --reassign=$user_admin
 
@@ -61,8 +63,8 @@ while true; do
 					wp post update 2 --post_title='Home' --post_name='home' --post_content=' '
 					### The default WordPress page is post ID 2. Set post 2 to the front page (Settings->Reading->Front page displays)
 					wp option update page_on_front 2
-					### Add the home page to the primary menu
-					wp menu item add-post primary-navigation 2
+					### Add the home page to the main menu
+					wp menu item add-post main-menu 2
 
 			# Check if the site has a blog
 			while true; do
@@ -76,8 +78,8 @@ while true; do
 							blog_page=$(wp post create --post_type=page --post_status=publish --post_title='Blog' --post_name='blog' --porcelain)
 							## Set the posts page to the created page
 							wp option update page_for_posts $blog_page
-							## Add the blog page to the primary menu
-							wp menu item add-post primary-navigation $blog_page
+							## Add the blog page to the main menu
+							wp menu item add-post main-menu $blog_page
 						# Delete the first post, Hello world!
 							## The default WordPress first post is post ID 1. Delete the post with ID 1. Have it bypass the trash (--force)
 							wp post delete 1 --force
@@ -133,13 +135,13 @@ while true; do
 								title=${page#*-}
 								## Create sub-pages
 								page_id=$(wp post create --post_type=page --post_status=publish --post_title=$title --post_name=$title --post_parent=$parent --porcelain)
-								## Add sub-page to main navigation menu under it's parent
-								wp menu item add-post primary-navigation $page_id --parent-id=$parent_menu
+								## Add sub-page to main menu under it's parent
+								wp menu item add-post main-menu $page_id --parent-id=$parent_menu
 							else
 								## Create top-level pages
 								parent=$(wp post create --post_type=page --post_status=publish --post_title=$page --post_name=$page --porcelain)
-								## Add page to main navigation menu
-								parent_menu=$(wp menu item add-post primary-navigation $parent --porcelain)
+								## Add page to main menu
+								parent_menu=$(wp menu item add-post main-menu $parent --porcelain)
 							fi
 						done
 						IFS=$OIFS
